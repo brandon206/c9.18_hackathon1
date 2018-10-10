@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reversi</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>Reversi</h1>
+    <div id="colorTurn">Black Turn</div>
+    <div id="grid">
+        <div class="row">
+            <div class="cell" ><div class="disc" row="1" col="1"></div></div>
+            <div class="cell" ><div class="disc" row="1" col="2"></div></div>
+            <div class="cell" ><div class="disc" row="1" col="3"></div></div>
+            <div class="cell" ><div class="disc" row="1" col="4"></div></div>
+            <div class="cell" ><div class="disc" row="1" col="5"></div></div>
+            <div class="cell" ><div class="disc" row="1" col="6"></div></div>
+            <div class="cell" ><div class="disc" row="1" col="7"></div></div>
+            <div class="cell" ><div class="disc" row="1" col="8"></div></div>
+        </div>
+        <div class="row">
+            <div class="cell" ><div class="disc" row="2" col="1"></div></div>
+            <div class="cell" ><div class="disc" row="2" col="2"></div></div>
+            <div class="cell" ><div class="disc" row="2" col="3" ></div></div>
+            <div class="cell" ><div class="disc" row="2" col="4"></div></div>
+            <div class="cell" ><div class="disc" row="2" col="5"></div></div>
+            <div class="cell" ><div class="disc" row="2" col="6"></div></div>
+            <div class="cell" ><div class="disc" row="2" col="7"></div></div>
+            <div class="cell" ><div class="disc" row="2" col="8"></div></div>
+        </div>
+        <div class="row">
+            <div class="cell" ><div class="disc" row="3" col="1"></div></div>
+            <div class="cell" ><div class="disc" row="3" col="2"></div></div>
+            <div class="cell" ><div class="disc" row="3" col="3"></div></div>
+            <div class="cell" ><div class="disc" row="3" col="4"></div></div>
+            <div class="cell" ><div class="disc" row="3" col="5"></div></div>
+            <div class="cell" ><div class="disc" row="3" col="6"></div></div>
+            <div class="cell" ><div class="disc" row="3" col="7"></div></div>
+            <div class="cell" ><div class="disc" row="3" col="8"></div></div>
+        </div>
+        <div class="row">
+            <div class="cell" ><div class="disc" row="4" col="1"></div></div>
+            <div class="cell" ><div class="disc" row="4" col="2"></div></div>
+            <div class="cell" ><div class="disc" row="4" col="3"></div></div>
+            <div class="cell" ><div class="disc" row="4" col="4">X</div></div>
+            <div class="cell" ><div class="disc" row="4" col="5">O</div></div>
+            <div class="cell" ><div class="disc" row="4" col="6"></div></div>
+            <div class="cell" ><div class="disc" row="4" col="7"></div></div>
+            <div class="cell" ><div class="disc" row="4" col="8"></div></div>
+        </div>
+        <div class="row">
+            <div class="cell" ><div class="disc" row="5" col="1"></div></div>
+            <div class="cell" ><div class="disc" row="5" col="2"></div></div>
+            <div class="cell" ><div class="disc" row="5" col="3"></div></div>
+            <div class="cell" ><div class="disc" row="5" col="4">O</div></div>
+            <div class="cell" ><div class="disc" row="5" col="5">X</div></div>
+            <div class="cell" ><div class="disc" row="5" col="6"></div></div>
+            <div class="cell" ><div class="disc" row="5" col="7"></div></div>
+            <div class="cell" ><div class="disc" row="5" col="8"></div></div>
+        </div>
+        <div class="row">
+            <div class="cell" ><div class="disc" row="6" col="1"></div></div>
+            <div class="cell" ><div class="disc" row="6" col="2" ></div></div>
+            <div class="cell" ><div class="disc" row="6" col="3"></div></div>
+            <div class="cell" ><div class="disc" row="6" col="4" ></div></div>
+            <div class="cell" ><div class="disc" row="6" col="5"></div></div>
+            <div class="cell" ><div class="disc" row="6" col="6"></div></div>
+            <div class="cell" ><div class="disc" row="6" col="7"></div></div>
+            <div class="cell" ><div class="disc" row="6" col="8"></div></div>
+        </div>
+        <div class="row">
+            <div class="cell" ><div class="disc" row="7" col="1"></div></div>
+            <div class="cell" ><div class="disc" row="7" col="2"></div></div>
+            <div class="cell" ><div class="disc" row="7" col="3"></div></div>
+            <div class="cell" ><div class="disc" row="7" col="4" ></div></div>
+            <div class="cell" ><div class="disc" row="7" col="5" ></div></div>
+            <div class="cell" ><div class="disc" row="7" col="6" ></div></div>
+            <div class="cell" ><div class="disc" row="7" col="7" ></div></div>
+            <div class="cell" ><div class="disc" row="7" col="8" ></div></div>
+        </div>
+        <div class="row">
+            <div class="cell" ><div class="disc" row="8" col="1" ></div></div>
+            <div class="cell" ><div class="disc" row="8" col="2" ></div></div>
+            <div class="cell" ><div class="disc" row="8" col="3"></div></div>
+            <div class="cell" ><div class="disc" row="8" col="4"></div></div>
+            <div class="cell" ><div class="disc" row="8" col="5" ></div></div>
+            <div class="cell" ><div class="disc" row="8" col="6"></div></div>
+            <div class="cell" ><div class="disc" row="8" col="7" ></div></div>
+            <div class="cell" ><div class="disc" row="8" col="8" ></div></div>
+        </div>
+    </div>
+
+    <input id="resetButton" type="button" value="Reset" onclick="refreshGrid()" />
+
+</body>
+</html>
