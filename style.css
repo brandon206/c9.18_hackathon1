@@ -39,11 +39,21 @@ h1 {
     padding: 4px;
 }
 
-.disc {
+.discBlack {
     width: 36px;
     height: 36px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
     margin: 2px;
+    background-color: black;
+}
+.discWhite {
+    width: 36px;
+    height: 36px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    margin: 2px;
+    background-color: white;
 }
