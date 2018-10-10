@@ -45,13 +45,17 @@ function findPossibleMoves ( currentPlayerColor ) {
                     var checkOppRow = [parseInt(currentPositionRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
                     var checkColumn = [parseInt(currentPositionColumn) + parseInt(directionArray[directionFirstArr][1])];
                     var checkOppColumn = [parseInt(currentPositionColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
-                    console.log(checkOppRow,checkOppColumn);
+                    // console.log(checkOppRow,checkOppColumn);
                     var possibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
                     var checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
                     if(possibleMove.hasClass("disc")){
                         possibleMove.addClass("highlight");
+                        while(checkOppMove.hasClass(oppositeColor)){
+                            checkOppRow = [parseInt(checkOppRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
+                            checkOppColumn = [parseInt(checkOppColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
+                            checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
+                        }
                         if(checkOppMove.hasClass(currentPlayerColor)){
-                            var validMove =  $(checkOppMove.hasClass(currentPlayerColor));
                             possibleMove.removeClass("highlight");
                             possibleMove.addClass("validMoveBorder");
                         }
