@@ -42,10 +42,19 @@ function findPossibleMoves ( currentPlayerColor ) {
                 console.log(currentPositionColumn);
                 for(var directionFirstArr = 0; directionFirstArr < directionArray.length; directionFirstArr ++){
                     var checkRow = [parseInt(currentPositionRow) + parseInt(directionArray[directionFirstArr][0])];
+                    var checkOppRow = [parseInt(currentPositionRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
                     var checkColumn = [parseInt(currentPositionColumn) + parseInt(directionArray[directionFirstArr][1])];
-                    var possibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`)
+                    var checkOppColumn = [parseInt(currentPositionColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
+                    console.log(checkOppRow,checkOppColumn);
+                    var possibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
+                    var checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
                     if(possibleMove.hasClass("disc")){
                         possibleMove.addClass("highlight");
+                        if(checkOppMove.hasClass(currentPlayerColor)){
+                            var validMove =  $(checkOppMove.hasClass(currentPlayerColor));
+                            possibleMove.removeClass("highlight");
+                            possibleMove.addClass("validMoveBorder");
+                        }
                     }
                     //row, column, directionArray, directionFirstArr
                     //current position: [row, column]
@@ -62,4 +71,9 @@ function populateGameboard () {
         var cells = $(rows[rowI]).find(".cell");
         boardCoordinateArray.push(cells);
     }
+}
+function highlightValidMoves () {
+    // check if opp direction is class of opp color (has to be 1 or more)
+    // after opp color, must have class same color
+    // then this is a valid move
 }

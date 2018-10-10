@@ -64,3 +64,6 @@ h1 {
 .highlight{
     border: solid yellow 5px;
 }
+.validMoveBorder{
+    border: solid fuchsia 5px;
+}
