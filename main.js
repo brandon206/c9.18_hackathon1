@@ -125,21 +125,24 @@ function testPossibleMoves (targetCell,innerDiscElement){
                 possibleMove.addClass("validMoveBorder");
             }
             
-        }else if(possibleMove.hasClass(oppositeColor)){
-            // toBeFlippedArray.push(possibleMove);
+        // }else if(possibleMove.hasClass(oppositeColor)){
+        //     // toBeFlippedArray.push(possibleMove);
         }
     }
 }
 
 function flipGamePieces () {
     console.log("VALID EMPTY SPACE CLICKED");
+    for (var row = 0; row < boardCoordinateArray.length; row++) {
+        for (var column = 0; column < boardCoordinateArray[row].length; column++) {
+            $(".disc").removeClass('validMoveBorder');
+        }
+    }
     var clickedPositionRow = $(event.currentTarget).attr("row");
     var clickedPositionColumn = $(event.currentTarget).attr("col");
 
-    if ($(event.currentTarget).hasClass("validMoveBorder")) {
-        $(event.currentTarget).addClass(currentPlayerColor);
-        $(event.currentTarget).removeClass("validMoveBorder");
-    }
+    $(event.currentTarget).addClass(currentPlayerColor);
+
     for (var directionFirstArr = 0; directionFirstArr < directionArray.length; directionFirstArr++) {
         var checkRow = [parseInt(clickedPositionRow) + parseInt(directionArray[directionFirstArr][0])];
         var checkOppRow = [parseInt(clickedPositionRow) + parseInt(directionArray[directionFirstArr][0] * -1)];
@@ -148,19 +151,49 @@ function flipGamePieces () {
         var possibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
         console.log("possible move " + possibleMove);
         var checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
-        if (possibleMove.hasClass(oppositeColor)) {
-            for (var row = 0; row < boardCoordinateArray.length; row++) {
-                for (var column = 0; column < boardCoordinateArray[row].length; column++) {
-                    findOppColor(row, column);
-                    // $(".disc").removeClass('highlight');
-                    $(".disc").removeClass('validMoveBorder');
+ 
+        while(possibleMove.hasClass(oppositeColor)) {
+            var savedArray = [];
+            // possibleMove.removeClass(oppositeColor);
+            // possibleMove.addClass(currentPlayerColor);
+            checkRow = [parseInt(checkRow) + parseInt(directionArray[directionFirstArr][0])];
+            checkColumn = [parseInt(checkColumn) + parseInt(directionArray[directionFirstArr][1])];
+            var multiplePossibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
+            savedArray.push(multiplePossibleMove);
+            while(multiplePossibleMove.hasClass(oppositeColor)){
+                checkRow = [parseInt(checkRow) + parseInt(directionArray[directionFirstArr][0])];
+                checkColumn = [parseInt(checkColumn) + parseInt(directionArray[directionFirstArr][1])];
+                var multiplePossibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
+                if (multiplePossibleMove.hasClass(currentPlayerColor)){
+                    break;
                 }
             }
-            possibleMove.removeClass(oppositeColor);
-            possibleMove.addClass(currentPlayerColor);
-            togglePlayers();
+            if(possibleMove.hasClass(oppositeColor) && multiplePossibleMove.hasClass(currentPlayerColor)){
+                possibleMove.removeClass(oppositeColor);
+                possibleMove.addClass(currentPlayerColor);
+                for(var i = 0; i < savedArray.length; i++){
+                    savedArray[i].removeClass(oppositeColor);
+                    savedArray[i].addClass(currentPlayerColor);
+                }
+                // multiplePossibleMove.removeClass(oppositeColor);
+                // multiplePossibleMove.addClass(currentPlayerColor);
+            }
+            else{
+                break;
+            }
+            // for(var i = 0; i < savedArray.length -1; i++){
+            //     savedArray[i].removeClass(oppositeColor);
+            //     savedArray[i].addClass(currentPlayerColor);
+            // }
+            // toBeFlippedArray.push(possibleMove);
+            // if(checkOppMove.hasClass(currentPlayerColor)){
+            //     // possibleMove.removeClass("highlight");
+            //     possibleMove.addClass("validMoveBorder");
+            // }
         }
+        // }
     }
+    togglePlayers();
 }
 
 function togglePlayers(){
