@@ -1,29 +1,44 @@
 $(document).ready(initializeApp);
 
-$("<div>").attr
+function generateGameBoard(){
+    var h1 = $('<h1>');
+    h1.text('Reversi');
+    var body = $('body');
+    var currentPlayer = $("<div>").attr("id", "colorTurn").text('Black Turn');
+    var gridDiv = $("<div>").attr("id", "grid");
+    body.append(h1, currentPlayer, gridDiv);
+
+    for(var rowI = 1; rowI < 9; rowI++){
+        var rowDiv = $('<div>').addClass('row');
+        gridDiv.append(rowDiv);
+        for(var colI = 1; colI < 9; colI++) {
+            var cellDiv = $('<div>').addClass('cell');
+            rowDiv.append(cellDiv);
+            var discDiv = $('<div>').addClass('disc');
+            var rowAndColAttributes = discDiv.attr({row: rowI, col: colI});
+            cellDiv.append(discDiv, rowAndColAttributes);
+
+
+        }}
+
+        $("[row='4'][col='4']").removeClass('disc');
+        $("[row='4'][col='4']").addClass('discWhite');
+        $("[row='4'][col='5']").removeClass('disc');
+        $("[row='4'][col='5']").addClass('discBlack');
+        $("[row='5'][col='4']").removeClass('disc');
+        $("[row='5'][col='4']").addClass('discBlack');
+        $("[row='5'][col='5']").removeClass('disc');
+        $("[row='5'][col='5']").addClass('discWhite');
 
 
 
 
+    //eventually function on this button will be refreshGrid()?
+    var resetButton = $('<input>').attr({id: 'resetButton', type: 'button', value: 'Reset'}).click();
 
+    body.append(resetButton);
 
-
-
-
-
-
-// <div id="grid">
-//     <div class="row">
-//     <div class="cell" ><div class="disc" row="1" col="1"></div></div>
-// <div class="cell" ><div class="disc" row="1" col="2"></div></div>
-// <div class="cell" ><div class="disc" row="1" col="3"></div></div>
-// <div class="cell" ><div class="disc" row="1" col="4"></div></div>
-// <div class="cell" ><div class="disc" row="1" col="5"></div></div>
-// <div class="cell" ><div class="disc" row="1" col="6"></div></div>
-// <div class="cell" ><div class="disc" row="1" col="7"></div></div>
-// <div class="cell" ><div class="disc" row="1" col="8"></div></div>
-// </div>
-// </div>
+}
 
 var boardCoordinateArray = [];
 var directionArray = [
@@ -38,10 +53,12 @@ var directionArray = [
 ];
 
 function initializeApp () {
+    generateGameBoard();
     // addclickhandlers();
     populateGameboard();
     // console.log(boardCoordinateArray);
     findPossibleMoves("discBlack");
+
 }
 // function addclickhandlers () {
 //     $(".number_button").on("click",findPossibleMoves);
