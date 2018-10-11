@@ -120,7 +120,7 @@ function testPossibleMoves (targetCell,innerDiscElement){
                 checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
                 // toBeFlippedArray.push(possibleMove);
             }
-            if(checkOppMove.hasClass(currentPlayerColor)){
+            if(checkOppMove.hasClass(currentPlayerColor) && !possibleMove.hasClass(oppositeColor) && !possibleMove.hasClass(currentPlayerColor)){
                 // possibleMove.removeClass("highlight");
                 possibleMove.addClass("validMoveBorder");
             }
@@ -192,6 +192,13 @@ function flipGamePieces () {
             // }
         }
         // }
+    }
+    for (var row = 0; row < boardCoordinateArray.length; row++) {
+        for (var column = 0; column < boardCoordinateArray[row].length; column++) {
+            $(".disc").removeClass('validMoveBorder');
+            $(".discBlack").off("click");
+            $(".discWhite").off("click");
+        }
     }
     togglePlayers();
 }
