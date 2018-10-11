@@ -86,14 +86,12 @@ function findPossibleMoves ( startingColor ) {
     for(var row = 0; row < boardCoordinateArray.length; row++){
         for(var column = 0; column < boardCoordinateArray[row].length; column++){
             findOppColor(row, column);
-            // $(".selected").removeClass('selected');
         }
     }
 }
 
 function findOppColor (row,column) {
     var targetCell = $(boardCoordinateArray[row][column]);
-    // targetCell.addClass('selected');
     var innerDiscElement = targetCell.find('div');
     if(innerDiscElement.hasClass( oppositeColor )){
         console.log('found color');
@@ -113,20 +111,14 @@ function testPossibleMoves (targetCell,innerDiscElement){
         console.log("possible move " + possibleMove);
         var checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
         if(possibleMove.hasClass("disc")){
-            // possibleMove.addClass("highlight");
             while(checkOppMove.hasClass(oppositeColor)){
                 checkOppRow = [parseInt(checkOppRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
                 checkOppColumn = [parseInt(checkOppColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
                 checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
-                // toBeFlippedArray.push(possibleMove);
             }
             if(checkOppMove.hasClass(currentPlayerColor) && !possibleMove.hasClass(oppositeColor) && !possibleMove.hasClass(currentPlayerColor)){
-                // possibleMove.removeClass("highlight");
                 possibleMove.addClass("validMoveBorder");
             }
-            
-        // }else if(possibleMove.hasClass(oppositeColor)){
-        //     // toBeFlippedArray.push(possibleMove);
         }
     }
 }
@@ -154,8 +146,6 @@ function flipGamePieces () {
  
         while(possibleMove.hasClass(oppositeColor)) {
             var savedArray = [];
-            // possibleMove.removeClass(oppositeColor);
-            // possibleMove.addClass(currentPlayerColor);
             checkRow = [parseInt(checkRow) + parseInt(directionArray[directionFirstArr][0])];
             checkColumn = [parseInt(checkColumn) + parseInt(directionArray[directionFirstArr][1])];
             var multiplePossibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
@@ -175,23 +165,11 @@ function flipGamePieces () {
                     savedArray[i].removeClass(oppositeColor);
                     savedArray[i].addClass(currentPlayerColor);
                 }
-                // multiplePossibleMove.removeClass(oppositeColor);
-                // multiplePossibleMove.addClass(currentPlayerColor);
             }
             else{
                 break;
             }
-            // for(var i = 0; i < savedArray.length -1; i++){
-            //     savedArray[i].removeClass(oppositeColor);
-            //     savedArray[i].addClass(currentPlayerColor);
-            // }
-            // toBeFlippedArray.push(possibleMove);
-            // if(checkOppMove.hasClass(currentPlayerColor)){
-            //     // possibleMove.removeClass("highlight");
-            //     possibleMove.addClass("validMoveBorder");
-            // }
         }
-        // }
     }
     for (var row = 0; row < boardCoordinateArray.length; row++) {
         for (var column = 0; column < boardCoordinateArray[row].length; column++) {
