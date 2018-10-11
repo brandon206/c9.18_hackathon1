@@ -73,7 +73,7 @@ function populateGameboard () {
 
 function addclickhandlers () {
     $(".disc").on("click",flipGamePieces);
-    // $("#resetButton").on("click",resetGame);
+    $("#resetButton").on("click",resetGame);
 }
 
 function findPossibleMoves ( startingColor ) {
@@ -197,32 +197,41 @@ function togglePlayers(){
         findPossibleMoves("discBlack");
     }
 }
-// function resetGame () {
-//     var rows = $(".row");
-//     for(var rowI = 0; rowI < rows.length; rowI++){
-//         var cells = $(rows[rowI]).find(".cell");
-//         $(".disc").removeClass('discBlack');
-//         $(".disc").removeClass('validMoveBorder');
-//         $(".disc").removeClass('discWhite');
-//     }
-//     $("[row='4'][col='4']").removeClass('disc');
-//     $("[row='4'][col='4']").removeClass('discBlack');
-//     $("[row='4'][col='4']").addClass('discWhite');
-//     $("[row='4'][col='5']").removeClass('disc');
-//     $("[row='4'][col='5']").removeClass('discWhite');
-//     $("[row='4'][col='5']").addClass('discBlack');
-//     $("[row='5'][col='4']").removeClass('disc');
-//     $("[row='5'][col='4']").removeClass('discWhite');
-//     $("[row='5'][col='4']").addClass('discBlack');
-//     $("[row='5'][col='5']").removeClass('disc');
-//     $("[row='5'][col='5']").removeClass('discBlack');
-//     $("[row='5'][col='5']").addClass('discWhite');
-//     if(currentPlayerColor==='discWhite'){
-//         currentPlayerColor = 'discBlack';
-//         $('#colorTurn').text('Player Turn: Black');
-//         $('body').css('background-color', 'black');
-//         $('body').css('color', 'white');
-//         findPossibleMoves("discBlack");
-//     }
-//     addclickhandlers();
-// }
+function resetGame () {
+    var rows = $(".row");
+    for(var rowI = 0; rowI < rows.length; rowI++){
+        var cells = $(rows[rowI]).find(".cell");
+        $(".disc").removeClass('discBlack');
+        $(".disc").removeClass('validMoveBorder');
+        $(".disc").removeClass('discWhite');
+        $(".disc").off("click");
+    }
+    $("[row='4'][col='4']").removeClass('disc');
+    $("[row='4'][col='4']").removeClass('discBlack');
+    $("[row='4'][col='4']").addClass('discWhite');
+    $("[row='4'][col='5']").removeClass('disc');
+    $("[row='4'][col='5']").removeClass('discWhite');
+    $("[row='4'][col='5']").addClass('discBlack');
+    $("[row='5'][col='4']").removeClass('disc');
+    $("[row='5'][col='4']").removeClass('discWhite');
+    $("[row='5'][col='4']").addClass('discBlack');
+    $("[row='5'][col='5']").removeClass('disc');
+    $("[row='5'][col='5']").removeClass('discBlack');
+    $("[row='5'][col='5']").addClass('discWhite');
+    var startingColor= "discBlack";
+    if(startingColor==='discWhite'){
+        oppositeColor = 'discBlack';
+        currentPlayerColor = 'discBlack';
+        $('#colorTurn').text('Player Turn: Black');
+        $('body').css('background-color', 'black');
+        $('body').css('color', 'white');
+    } else {
+        oppositeColor = 'discWhite';
+        currentPlayerColor = 'discBlack';
+        $('#colorTurn').text('Player Turn: Black');
+        $('body').css('background-color', 'black');
+        $('body').css('color', 'white');
+    }
+    addclickhandlers();
+    findPossibleMoves("discBlack");
+}
