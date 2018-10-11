@@ -1,6 +1,10 @@
 $(document).ready(initializeApp);
 
 var boardCoordinateArray = [];
+var currentPositionRow;
+var currentPositionColumn;
+var currentPlayerColor;
+var oppositeColor;
 var directionArray = [
     [-1,-1],
     [1,1],
@@ -14,21 +18,8 @@ var directionArray = [
 
 function initializeApp () {
     populateGameboard();
+    addclickhandlers();
     findPossibleMoves("discBlack");
-}
-
-function findPossibleMoves ( currentPlayerColor ) {
-    if(currentPlayerColor==='discWhite'){
-        var oppositeColor = 'discBlack';
-    } else {
-        oppositeColor = 'discWhite';
-    }
-    for(var row = 0; row < boardCoordinateArray.length; row++){
-        for(var column = 0; column < boardCoordinateArray[row].length; column++){
-            findOppColor(row, column, currentPlayerColor, oppositeColor);
-            $(".selected").removeClass('selected');
-        }
-    }
 }
 
 function populateGameboard () {
@@ -39,25 +30,46 @@ function populateGameboard () {
     }
 }
 
-function findOppColor (row,column,currentPlayerColor,oppositeColor) {
-    var targetCell = $(boardCoordinateArray[row][column]);
-    targetCell.addClass('selected');
-    var innerDiscElement = targetCell.find('div');
-    if(innerDiscElement.hasClass( oppositeColor )){
-        console.log('found color');
-        var currentPositionRow = innerDiscElement.attr("row");
-        var currentPositionColumn = innerDiscElement.attr("col");
-        testPossibleMoves (targetCell,innerDiscElement,currentPositionRow,currentPositionColumn,oppositeColor,currentPlayerColor);
+function addclickhandlers () {
+    $(".disc").on("click",flipGamePieces);
+}
+
+function findPossibleMoves ( startingColor ) {
+    if(startingColor==='discWhite'){
+        oppositeColor = 'discBlack';
+        currentPlayerColor = startingColor;
+    } else {
+        oppositeColor = 'discWhite';
+        currentPlayerColor = startingColor;
+    }
+    for(var row = 0; row < boardCoordinateArray.length; row++){
+        for(var column = 0; column < boardCoordinateArray[row].length; column++){
+            findOppColor(row, column);
+            // $(".selected").removeClass('selected');
+        }
     }
 }
 
-function testPossibleMoves (targetCell,innerDiscElement,currentPositionRow,currentPositionColumn,oppositeColor,currentPlayerColor){
+function findOppColor (row,column) {
+    var targetCell = $(boardCoordinateArray[row][column]);
+    // targetCell.addClass('selected');
+    var innerDiscElement = targetCell.find('div');
+    if(innerDiscElement.hasClass( oppositeColor )){
+        console.log('found color');
+        currentPositionRow = innerDiscElement.attr("row");
+        currentPositionColumn = innerDiscElement.attr("col");
+        testPossibleMoves (targetCell,innerDiscElement);
+    }
+}
+
+function testPossibleMoves (targetCell,innerDiscElement){
     for(var directionFirstArr = 0; directionFirstArr < directionArray.length; directionFirstArr ++){
         var checkRow = [parseInt(currentPositionRow) + parseInt(directionArray[directionFirstArr][0])];
         var checkOppRow = [parseInt(currentPositionRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
         var checkColumn = [parseInt(currentPositionColumn) + parseInt(directionArray[directionFirstArr][1])];
         var checkOppColumn = [parseInt(currentPositionColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
         var possibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
+        console.log("possible move " + possibleMove);
         var checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
         if(possibleMove.hasClass("disc")){
             possibleMove.addClass("highlight");
@@ -65,17 +77,46 @@ function testPossibleMoves (targetCell,innerDiscElement,currentPositionRow,curre
                 checkOppRow = [parseInt(checkOppRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
                 checkOppColumn = [parseInt(checkOppColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
                 checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
+                // toBeFlippedArray.push(possibleMove);
             }
             if(checkOppMove.hasClass(currentPlayerColor)){
                 possibleMove.removeClass("highlight");
                 possibleMove.addClass("validMoveBorder");
             }
+            
+        }else if(possibleMove.hasClass(oppositeColor)){
+            // toBeFlippedArray.push(possibleMove);
         }
     }
 }
 
-// function highlightValidMoves () {
-//     // check if opp direction is class of opp color (has to be 1 or more)
-//     // after opp color, must have class same color
-//     // then this is a valid move
-// }
+function flipGamePieces () {
+    console.log("VALID EMPTY SPACE CLICKED");
+    var clickedPositionRow = $(event.currentTarget).attr("row");
+    var clickedPositionColumn = $(event.currentTarget).attr("col");
+
+    if($(event.currentTarget).hasClass("validMoveBorder")){
+        $(event.currentTarget).addClass(currentPlayerColor);
+        $(event.currentTarget).removeClass("validMoveBorder");
+    }
+    for(var directionFirstArr = 0; directionFirstArr < directionArray.length; directionFirstArr ++){
+        var checkRow = [parseInt(clickedPositionRow) + parseInt(directionArray[directionFirstArr][0])];
+        var checkOppRow = [parseInt(clickedPositionRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
+        var checkColumn = [parseInt(clickedPositionColumn) + parseInt(directionArray[directionFirstArr][1])];
+        var checkOppColumn = [parseInt(clickedPositionColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
+        var possibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
+        console.log("possible move " + possibleMove);
+        var checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
+        if(possibleMove.hasClass(oppositeColor)){
+            for(var row = 0; row < boardCoordinateArray.length; row++){
+                for(var column = 0; column < boardCoordinateArray[row].length; column++){
+                    findOppColor(row, column);
+                    $(".disc").removeClass('highlight');
+                    $(".disc").removeClass('validMoveBorder');
+                }
+            }
+            possibleMove.removeClass(oppositeColor);
+            possibleMove.addClass(currentPlayerColor);
+        }
+    }
+}
