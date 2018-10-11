@@ -1,5 +1,45 @@
 $(document).ready(initializeApp);
 
+function generateGameBoard(){
+    var h1 = $('<h1>');
+    h1.text('Reversi');
+    var body = $('body');
+    var currentPlayer = $("<div>").attr("id", "colorTurn").text('Black Turn');
+    var gridDiv = $("<div>").attr("id", "grid");
+    body.append(h1, currentPlayer, gridDiv);
+
+    for(var rowI = 1; rowI < 9; rowI++){
+        var rowDiv = $('<div>').addClass('row');
+        gridDiv.append(rowDiv);
+        for(var colI = 1; colI < 9; colI++) {
+            var cellDiv = $('<div>').addClass('cell');
+            rowDiv.append(cellDiv);
+            var discDiv = $('<div>').addClass('disc');
+            var rowAndColAttributes = discDiv.attr({row: rowI, col: colI});
+            cellDiv.append(discDiv, rowAndColAttributes);
+
+
+        }}
+
+        $("[row='4'][col='4']").removeClass('disc');
+        $("[row='4'][col='4']").addClass('discWhite');
+        $("[row='4'][col='5']").removeClass('disc');
+        $("[row='4'][col='5']").addClass('discBlack');
+        $("[row='5'][col='4']").removeClass('disc');
+        $("[row='5'][col='4']").addClass('discBlack');
+        $("[row='5'][col='5']").removeClass('disc');
+        $("[row='5'][col='5']").addClass('discWhite');
+
+
+
+
+    //eventually function on this button will be refreshGrid()?
+    var resetButton = $('<input>').attr({id: 'resetButton', type: 'button', value: 'Reset'}).click();
+
+    body.append(resetButton);
+
+}
+
 var boardCoordinateArray = [];
 var directionArray = [
     [-1,-1],
@@ -13,8 +53,10 @@ var directionArray = [
 ];
 
 function initializeApp () {
+    generateGameBoard();
     populateGameboard();
     findPossibleMoves("discBlack");
+
 }
 
 function findPossibleMoves ( currentPlayerColor ) {
@@ -73,9 +115,3 @@ function testPossibleMoves (targetCell,innerDiscElement,currentPositionRow,curre
         }
     }
 }
-
-// function highlightValidMoves () {
-//     // check if opp direction is class of opp color (has to be 1 or more)
-//     // after opp color, must have class same color
-//     // then this is a valid move
-// }
