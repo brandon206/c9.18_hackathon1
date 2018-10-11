@@ -65,5 +65,9 @@ h1 {
     border: solid yellow 5px;
 }
 .validMoveBorder{
-    border: solid fuchsia 5px;
+    width: 36px;
+    height: 36px;
+    margin: 2px;
+    background-color: fuchsia;
+
 }
