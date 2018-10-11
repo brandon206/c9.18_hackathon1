@@ -1,7 +1,5 @@
 $(document).ready(initializeApp);
 
-var currentPlayerColor = 'black';
-
 function generateGameBoard(){
     var h1 = $('<h1>');
     h1.text('Reversi');
@@ -63,7 +61,6 @@ function initializeApp () {
     populateGameboard();
     addclickhandlers();
     findPossibleMoves("discBlack");
-    addClickTogglePlayers(); //temporary click handler to test togglePlayers function
 }
 
 function populateGameboard () {
@@ -139,21 +136,21 @@ function flipGamePieces () {
     var clickedPositionRow = $(event.currentTarget).attr("row");
     var clickedPositionColumn = $(event.currentTarget).attr("col");
 
-    if($(event.currentTarget).hasClass("validMoveBorder")){
+    if ($(event.currentTarget).hasClass("validMoveBorder")) {
         $(event.currentTarget).addClass(currentPlayerColor);
         $(event.currentTarget).removeClass("validMoveBorder");
     }
-    for(var directionFirstArr = 0; directionFirstArr < directionArray.length; directionFirstArr ++){
+    for (var directionFirstArr = 0; directionFirstArr < directionArray.length; directionFirstArr++) {
         var checkRow = [parseInt(clickedPositionRow) + parseInt(directionArray[directionFirstArr][0])];
-        var checkOppRow = [parseInt(clickedPositionRow) + parseInt(directionArray[directionFirstArr][0]*-1)];
+        var checkOppRow = [parseInt(clickedPositionRow) + parseInt(directionArray[directionFirstArr][0] * -1)];
         var checkColumn = [parseInt(clickedPositionColumn) + parseInt(directionArray[directionFirstArr][1])];
-        var checkOppColumn = [parseInt(clickedPositionColumn) + parseInt(directionArray[directionFirstArr][1]*-1)];
+        var checkOppColumn = [parseInt(clickedPositionColumn) + parseInt(directionArray[directionFirstArr][1] * -1)];
         var possibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
         console.log("possible move " + possibleMove);
         var checkOppMove = $(`[row = ${(checkOppRow)}][col = ${(checkOppColumn)}]`);
-        if(possibleMove.hasClass(oppositeColor)){
-            for(var row = 0; row < boardCoordinateArray.length; row++){
-                for(var column = 0; column < boardCoordinateArray[row].length; column++){
+        if (possibleMove.hasClass(oppositeColor)) {
+            for (var row = 0; row < boardCoordinateArray.length; row++) {
+                for (var column = 0; column < boardCoordinateArray[row].length; column++) {
                     findOppColor(row, column);
                     $(".disc").removeClass('highlight');
                     $(".disc").removeClass('validMoveBorder');
@@ -161,25 +158,23 @@ function flipGamePieces () {
             }
             possibleMove.removeClass(oppositeColor);
             possibleMove.addClass(currentPlayerColor);
+            togglePlayers();
         }
-      
-//temporary function to make sure togglePlayers is working
-
-function addClickTogglePlayers(){
-    var togglePlayersButton = $('<button>').attr({id: 'togglePlayers', type: 'button', value: 'Toggle Player'}).click(togglePlayers);
-    $('body').append(togglePlayersButton);
+    }
 }
 
 function togglePlayers(){
-    if(currentPlayerColor==='black'){
-        currentPlayerColor = 'white';
+    if(currentPlayerColor==='discBlack'){
+        currentPlayerColor = 'discWhite';
         $('#colorTurn').text('Player Turn: White');
         $('body').css('background-color', 'white');
         $('body').css('color', 'black');
-    } else if(currentPlayerColor==='white'){
-        currentPlayerColor = 'black';
+        findPossibleMoves("discWhite");
+    } else if(currentPlayerColor==='discWhite'){
+        currentPlayerColor = 'discBlack';
         $('#colorTurn').text('Player Turn: Black');
         $('body').css('background-color', 'black');
         $('body').css('color', 'white');
+        findPossibleMoves("discBlack");
     }
 }
