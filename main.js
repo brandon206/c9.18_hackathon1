@@ -162,6 +162,7 @@ function flipGamePieces () {
             possibleMove.removeClass(oppositeColor);
             possibleMove.addClass(currentPlayerColor);
         }
+    }
       
 //temporary function to make sure togglePlayers is working
 
