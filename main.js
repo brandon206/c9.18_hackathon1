@@ -5,10 +5,8 @@ function generateGameBoard(){
     h1.text('Reversi');
     var body = $('body');
     var currentPlayer = $("<div>").attr("id", "colorTurn").text('Player Turn: Black');
-    var currentWinner = $("<div>").attr("id", "currentWinner").text('Current Winner: ');
-    var scoreboard = $("<div>").attr("id", "scoreboard").text('Scoreboard: ');
     var gridDiv = $("<div>").attr("id", "grid");
-    body.append(h1, currentPlayer, scoreboard, currentWinner, gridDiv);
+    body.append(h1, currentPlayer, gridDiv);
 
     for(var rowI = 1; rowI < 9; rowI++){
         var rowDiv = $('<div>').addClass('row');
@@ -21,7 +19,7 @@ function generateGameBoard(){
             cellDiv.append(discDiv, rowAndColAttributes);
 
 
-    }}
+        }}
 
     $("[row='4'][col='4']").removeClass('disc');
     $("[row='4'][col='4']").addClass('discWhite');
@@ -57,15 +55,12 @@ var directionArray = [
     [-1,1],
     [1,-1]    
 ];
-var currentWinner = 'placeholder';
 
 function initializeApp () {
     generateGameBoard();
     populateGameboard();
     addclickhandlers();
     findPossibleMoves("discBlack");
-    displayCurrentWinner();
-    displayCurrentScore();
 }
 
 function populateGameboard () {
@@ -78,6 +73,7 @@ function populateGameboard () {
 
 function addclickhandlers () {
     $(".disc").on("click",flipGamePieces);
+    $("#resetButton").on("click",resetGame);
 }
 
 function findPossibleMoves ( startingColor ) {
@@ -183,8 +179,6 @@ function flipGamePieces () {
             $(".discWhite").off("click");
         }
     }
-    displayCurrentScore();
-    displayCurrentWinner();
     togglePlayers();
 }
 
@@ -203,27 +197,41 @@ function togglePlayers(){
         findPossibleMoves("discBlack");
     }
 }
-
-function displayCurrentWinner(){
-    var whiteCell = $('.discWhite');
-    var blackCell = $('.discBlack');
-    console.log('final whiteScore console.log', whiteCell);
-    console.log('final blackScore console.log', blackCell);
-    if(whiteCell.length === blackCell.length){
-        $('#currentWinner').text('Current Winner: It\'s a tie!');
-    } else if(whiteCell.length > blackCell.length){
-        $('#currentWinner').text('Current Winner: White');
-    } else if(blackCell.length > whiteCell.length){
-        $('#currentWinner').text('Current Winner: Black');
+function resetGame () {
+    var rows = $(".row");
+    for(var rowI = 0; rowI < rows.length; rowI++){
+        var cells = $(rows[rowI]).find(".cell");
+        $(".disc").removeClass('discBlack');
+        $(".disc").removeClass('validMoveBorder');
+        $(".disc").removeClass('discWhite');
+        $(".disc").off("click");
     }
-    return currentWinner;
+    $("[row='4'][col='4']").removeClass('disc');
+    $("[row='4'][col='4']").removeClass('discBlack');
+    $("[row='4'][col='4']").addClass('discWhite');
+    $("[row='4'][col='5']").removeClass('disc');
+    $("[row='4'][col='5']").removeClass('discWhite');
+    $("[row='4'][col='5']").addClass('discBlack');
+    $("[row='5'][col='4']").removeClass('disc');
+    $("[row='5'][col='4']").removeClass('discWhite');
+    $("[row='5'][col='4']").addClass('discBlack');
+    $("[row='5'][col='5']").removeClass('disc');
+    $("[row='5'][col='5']").removeClass('discBlack');
+    $("[row='5'][col='5']").addClass('discWhite');
+    var startingColor= "discBlack";
+    if(startingColor==='discWhite'){
+        oppositeColor = 'discBlack';
+        currentPlayerColor = 'discBlack';
+        $('#colorTurn').text('Player Turn: Black');
+        $('body').css('background-color', 'black');
+        $('body').css('color', 'white');
+    } else {
+        oppositeColor = 'discWhite';
+        currentPlayerColor = 'discBlack';
+        $('#colorTurn').text('Player Turn: Black');
+        $('body').css('background-color', 'black');
+        $('body').css('color', 'white');
+    }
+    addclickhandlers();
+    findPossibleMoves("discBlack");
 }
-
-function displayCurrentScore(){
-    var whiteCell = $('.discWhite');
-    var blackCell = $('.discBlack');
-    var whiteScore = whiteCell.length;
-    var blackScore = blackCell.length;
-    $('#scoreboard').text('White Score: ' + whiteScore + ' || ' + 'Black Score: ' + blackScore);
-}
-
