@@ -1,5 +1,47 @@
 $(document).ready(initializeApp);
 
+var currentPlayerColor = 'black';
+
+function generateGameBoard(){
+    var h1 = $('<h1>');
+    h1.text('Reversi');
+    var body = $('body');
+    var currentPlayer = $("<div>").attr("id", "colorTurn").text('Player Turn: Black');
+    var gridDiv = $("<div>").attr("id", "grid");
+    body.append(h1, currentPlayer, gridDiv);
+
+    for(var rowI = 1; rowI < 9; rowI++){
+        var rowDiv = $('<div>').addClass('row');
+        gridDiv.append(rowDiv);
+        for(var colI = 1; colI < 9; colI++) {
+            var cellDiv = $('<div>').addClass('cell');
+            rowDiv.append(cellDiv);
+            var discDiv = $('<div>').addClass('disc');
+            var rowAndColAttributes = discDiv.attr({row: rowI, col: colI});
+            cellDiv.append(discDiv, rowAndColAttributes);
+
+
+        }}
+
+    $("[row='4'][col='4']").removeClass('disc');
+    $("[row='4'][col='4']").addClass('discWhite');
+    $("[row='4'][col='5']").removeClass('disc');
+    $("[row='4'][col='5']").addClass('discBlack');
+    $("[row='5'][col='4']").removeClass('disc');
+    $("[row='5'][col='4']").addClass('discBlack');
+    $("[row='5'][col='5']").removeClass('disc');
+    $("[row='5'][col='5']").addClass('discWhite');
+
+
+
+
+    //eventually function on this button will be refreshGrid()?
+    var resetButton = $('<input>').attr({id: 'resetButton', type: 'button', value: 'Reset'}).click();
+
+    body.append(resetButton);
+
+}
+
 var boardCoordinateArray = [];
 var currentPositionRow;
 var currentPositionColumn;
@@ -17,9 +59,11 @@ var directionArray = [
 ];
 
 function initializeApp () {
+    generateGameBoard();
     populateGameboard();
     addclickhandlers();
     findPossibleMoves("discBlack");
+    addClickTogglePlayers(); //temporary click handler to test togglePlayers function
 }
 
 function populateGameboard () {
@@ -118,5 +162,24 @@ function flipGamePieces () {
             possibleMove.removeClass(oppositeColor);
             possibleMove.addClass(currentPlayerColor);
         }
+      
+//temporary function to make sure togglePlayers is working
+
+function addClickTogglePlayers(){
+    var togglePlayersButton = $('<button>').attr({id: 'togglePlayers', type: 'button', value: 'Toggle Player'}).click(togglePlayers);
+    $('body').append(togglePlayersButton);
+}
+
+function togglePlayers(){
+    if(currentPlayerColor==='black'){
+        currentPlayerColor = 'white';
+        $('#colorTurn').text('Player Turn: White');
+        $('body').css('background-color', 'white');
+        $('body').css('color', 'black');
+    } else if(currentPlayerColor==='white'){
+        currentPlayerColor = 'black';
+        $('#colorTurn').text('Player Turn: Black');
+        $('body').css('background-color', 'black');
+        $('body').css('color', 'white');
     }
 }
