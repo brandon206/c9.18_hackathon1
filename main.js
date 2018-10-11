@@ -226,3 +226,4 @@ function displayCurrentScore(){
     var blackScore = blackCell.length;
     $('#scoreboard').text('White Score: ' + whiteScore + ' || ' + 'Black Score: ' + blackScore);
 }
+
