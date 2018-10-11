@@ -5,9 +5,10 @@ function generateGameBoard(){
     h1.text('Reversi');
     var body = $('body');
     var currentPlayer = $("<div>").attr("id", "colorTurn").text('Player Turn: Black');
-    var scoreboard = $("<div>").attr("id", "scoreboard").text('Current Winner: ' + currentWinner);
+    var currentWinner = $("<div>").attr("id", "currentWinner").text('Current Winner: ');
+    var scoreboard = $("<div>").attr("id", "scoreboard").text('Scoreboard: ');
     var gridDiv = $("<div>").attr("id", "grid");
-    body.append(h1, currentPlayer, scoreboard, gridDiv);
+    body.append(h1, currentPlayer, scoreboard, currentWinner, gridDiv);
 
     for(var rowI = 1; rowI < 9; rowI++){
         var rowDiv = $('<div>').addClass('row');
@@ -63,6 +64,7 @@ function initializeApp () {
     populateGameboard();
     addclickhandlers();
     findPossibleMoves("discBlack");
+    displayCurrentWinner();
     displayCurrentScore();
 }
 
@@ -196,6 +198,8 @@ function flipGamePieces () {
         }
         // }
     }
+    displayCurrentScore();
+    displayCurrentWinner();
     togglePlayers();
 }
 
@@ -215,22 +219,25 @@ function togglePlayers(){
     }
 }
 
-function displayCurrentScore(){
-    debugger;
-    var whiteScore = [];
-    var blackScore = [];
+function displayCurrentWinner(){
     var whiteCell = $('.discWhite');
     var blackCell = $('.discBlack');
-    whiteScore.push(whiteCell);
-    blackScore.push(blackCell);
-    console.log('final whiteScore console.log', whiteScore);
-    console.log('final blackScore console.log', blackScore);
-    if(whiteScore.length === blackScore.length){
-        $('#scoreboard').text('Current Winner: It\'s a tie!');
-    } else if(whiteScore.length > blackScore.length){
-        $('#scoreboard').text('Current Winner: White');
-    } else if(blackScore.length > whiteScore.length){
-        $('#scoreboard').text('Current Winner: Black');
+    console.log('final whiteScore console.log', whiteCell);
+    console.log('final blackScore console.log', blackCell);
+    if(whiteCell.length === blackCell.length){
+        $('#currentWinner').text('Current Winner: It\'s a tie!');
+    } else if(whiteCell.length > blackCell.length){
+        $('#currentWinner').text('Current Winner: White');
+    } else if(blackCell.length > whiteCell.length){
+        $('#currentWinner').text('Current Winner: Black');
     }
     return currentWinner;
+}
+
+function displayCurrentScore(){
+    var whiteCell = $('.discWhite');
+    var blackCell = $('.discBlack');
+    var whiteScore = whiteCell.length;
+    var blackScore = blackCell.length;
+    $('#scoreboard').text('White Score: ' + whiteScore + ' || ' + 'Black Score: ' + blackScore);
 }
