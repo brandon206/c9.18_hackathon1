@@ -5,8 +5,9 @@ function generateGameBoard(){
     h1.text('Reversi');
     var body = $('body');
     var currentPlayer = $("<div>").attr("id", "colorTurn").text('Player Turn: Black');
+    var scoreboard = $("<div>").attr("id", "scoreboard").text('Current Winner: ' + currentWinner);
     var gridDiv = $("<div>").attr("id", "grid");
-    body.append(h1, currentPlayer, gridDiv);
+    body.append(h1, currentPlayer, scoreboard, gridDiv);
 
     for(var rowI = 1; rowI < 9; rowI++){
         var rowDiv = $('<div>').addClass('row');
@@ -19,7 +20,7 @@ function generateGameBoard(){
             cellDiv.append(discDiv, rowAndColAttributes);
 
 
-        }}
+    }}
 
     $("[row='4'][col='4']").removeClass('disc');
     $("[row='4'][col='4']").addClass('discWhite');
@@ -55,12 +56,14 @@ var directionArray = [
     [-1,1],
     [1,-1]    
 ];
+var currentWinner = 'placeholder';
 
 function initializeApp () {
     generateGameBoard();
     populateGameboard();
     addclickhandlers();
     findPossibleMoves("discBlack");
+    displayCurrentScore();
 }
 
 function populateGameboard () {
@@ -180,9 +183,21 @@ function togglePlayers(){
 }
 
 function displayCurrentScore(){
-    //for loop that goes through the board and finds all discBlack and discWhite and adds to array
-    //longer array is the winner?
-    //displays current score by adding up all black gamepieces for the black gamepiece player
-    //displays current score by adding up all white gamepieces for the white gamepiece player
-    //puts these together on the screen
+    debugger;
+    var whiteScore = [];
+    var blackScore = [];
+    var whiteCell = $('.discWhite');
+    var blackCell = $('.discBlack');
+    whiteScore.push(whiteCell);
+    blackScore.push(blackCell);
+    console.log('final whiteScore console.log', whiteScore);
+    console.log('final blackScore console.log', blackScore);
+    if(whiteScore.length === blackScore.length){
+        $('#scoreboard').text('Current Winner: It\'s a tie!');
+    } else if(whiteScore.length > blackScore.length){
+        $('#scoreboard').text('Current Winner: White');
+    } else if(blackScore.length > whiteScore.length){
+        $('#scoreboard').text('Current Winner: Black');
+    }
+    return currentWinner;
 }
