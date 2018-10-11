@@ -57,3 +57,17 @@ h1 {
     margin: 2px;
     background-color: white;
 }
+
+.selected{
+    background-color: pink;
+}
+.highlight{
+    border: solid yellow 5px;
+}
+.validMoveBorder{
+    width: 36px;
+    height: 36px;
+    margin: 2px;
+    background-color: fuchsia;
+
+}
