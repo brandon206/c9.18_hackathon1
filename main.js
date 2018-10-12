@@ -33,12 +33,10 @@ function generateGameBoard(){
     $("[row='5'][col='5']").addClass('discWhite');
 
 
+    var resetButton = $('<input>').attr({id: 'resetButton', type: 'button', value: 'Reset'});
+    var skipTurn = $('<input>').attr({id: 'skipTurn', type: 'button', value: 'Skip Turn (if no valid moves)'});
 
-
-    //eventually function on this button will be refreshGrid()?
-    var resetButton = $('<input>').attr({id: 'resetButton', type: 'button', value: 'Reset'}).click();
-
-    body.append(resetButton);
+    body.append(resetButton, skipTurn);
 
 }
 
@@ -79,6 +77,7 @@ function populateGameboard () {
 function addclickhandlers () {
     $(".disc").on("click",flipGamePieces);
     $("#resetButton").on("click",resetGame);
+    $("#skipTurn").on("click", skipTurn);
 }
 
 function findPossibleMoves ( startingColor ) {
@@ -202,6 +201,16 @@ function togglePlayers(){
         $('body').css('background-color', 'black');
         $('body').css('color', 'white');
         findPossibleMoves("discBlack");
+    }
+}
+
+function skipTurn(){
+    var testArray = $('.validMoveBorder');
+    console.log(testArray.length);
+    if(testArray.length === 0){
+        togglePlayers();
+    } else {
+        return
     }
 }
 
