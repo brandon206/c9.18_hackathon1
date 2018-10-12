@@ -186,6 +186,7 @@ function flipGamePieces () {
     displayCurrentScore();
     displayCurrentWinner();
     togglePlayers();
+    winCondition();
 }
 
 function togglePlayers(){
@@ -207,8 +208,6 @@ function togglePlayers(){
 function displayCurrentWinner(){
     var whiteCell = $('.discWhite');
     var blackCell = $('.discBlack');
-    console.log('final whiteScore console.log', whiteCell);
-    console.log('final blackScore console.log', blackCell);
     if(whiteCell.length === blackCell.length){
         $('#currentWinner').text('Current Winner: It\'s a tie!');
     } else if(whiteCell.length > blackCell.length){
@@ -220,9 +219,30 @@ function displayCurrentWinner(){
 }
 
 function displayCurrentScore(){
+    var clearCell = [];
     var whiteCell = $('.discWhite');
     var blackCell = $('.discBlack');
     var whiteScore = whiteCell.length;
     var blackScore = blackCell.length;
+    clearCell = $('.disc').not(".discBlack, .discWhite");
+    console.log('*** CLEAR CELL LENGTH ***', clearCell.length);
     $('#scoreboard').text('White Score: ' + whiteScore + ' || ' + 'Black Score: ' + blackScore);
+    if(clearCell.length===0){
+        setTimeout(function(){
+            if(whiteScore > blackScore){
+                alert('White player has won!');
+            }
+            else if(blackScore > whiteScore){
+                alert('Black player has won!');
+            }
+            else if(blackScore === whiteScore){
+                alert('Game was a tie!');
+            }
+        }, 3000);
+
+    }
+}
+
+function winCondition(){
+    $('#currentWinner').text();
 }
