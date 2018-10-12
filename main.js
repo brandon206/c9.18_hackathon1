@@ -214,7 +214,11 @@ function displayCurrentWinner(){
     } else if(blackCell.length > whiteCell.length){
         $('#currentWinner').text('Current Winner: Black');
     }
+<<<<<<< HEAD
     return $(currentWinner);
+=======
+    return currentWinner;
+>>>>>>> b941aa95def15abbc75e38b2ab9100408989dd31
 }
 
 function displayCurrentScore(){
@@ -279,4 +283,3 @@ function resetGame () {
     }
     addclickhandlers();
     findPossibleMoves("discBlack");
-}
