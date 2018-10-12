@@ -67,7 +67,9 @@ h1 {
 .validMoveBorder{
     /* width: 36px;
     height: 36px;
-    margin: 2px; */
-    border: solid 5px fuchsia;
+    margin: 2px;
+    background-color: fuchsia; */
+    border: solid 20px fuchsia;
+    /* box-shadow: 5px 10px #888888; */
 
 }
