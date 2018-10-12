@@ -277,6 +277,7 @@ function resetGame () {
         $('body').css('background-color', 'black');
         $('body').css('color', 'white');
     }
+    displayCurrentScore();
     addclickhandlers();
     findPossibleMoves("discBlack");
 }
