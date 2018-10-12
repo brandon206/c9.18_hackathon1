@@ -59,6 +59,7 @@ var directionArray = [
 ];
 
 function initializeApp () {
+    modalFunction ();
     generateGameBoard();
     populateGameboard();
     addclickhandlers();
@@ -227,18 +228,18 @@ function displayCurrentScore(){
     console.log('*** CLEAR CELL LENGTH ***', clearCell.length);
     $('#scoreboard').text('White Score: ' + whiteScore + ' || ' + 'Black Score: ' + blackScore);
     if(clearCell.length===0){
-        setTimeout(function(){
-            if(whiteScore > blackScore){
-                alert('White player has won!');
-            }
-            else if(blackScore > whiteScore){
-                alert('Black player has won!');
-            }
-            else if(blackScore === whiteScore){
-                alert('Game was a tie!');
-            }
-        }, 3000);
-
+        if(whiteScore > blackScore){
+            $(".modal-content").text("White Player has won!");
+            displayWinModal ();
+        }
+        else if(blackScore > whiteScore){
+            $(".modal-content").text("Black Player has won!");
+            displayWinModal ();
+        }
+        else if(blackScore === whiteScore){
+            $(".modal-content").text("Tied Game!");
+            displayWinModal ();
+        }
     }
 }
 
@@ -279,4 +280,26 @@ function resetGame () {
     }
     addclickhandlers();
     findPossibleMoves("discBlack");
+}
+
+function modalFunction () {
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+function displayWinModal () {
+    var modal = document.getElementById('myModal');
+    modal.style.display = "block";
 }
