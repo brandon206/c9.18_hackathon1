@@ -5,8 +5,10 @@ function generateGameBoard(){
     h1.text('Reversi');
     var body = $('body');
     var currentPlayer = $("<div>").attr("id", "colorTurn").text('Player Turn: Black');
+    var currentWinner = $("<div>").attr("id", "currentWinner").text('Current Winner: ');
+    var scoreboard = $("<div>").attr("id", "scoreboard").text('Scoreboard: ');
     var gridDiv = $("<div>").attr("id", "grid");
-    body.append(h1, currentPlayer, gridDiv);
+    body.append(h1, currentPlayer, scoreboard, currentWinner, gridDiv);
 
     for(var rowI = 1; rowI < 9; rowI++){
         var rowDiv = $('<div>').addClass('row');
@@ -61,6 +63,8 @@ function initializeApp () {
     populateGameboard();
     addclickhandlers();
     findPossibleMoves("discBlack");
+    displayCurrentScore ();
+    displayCurrentWinner ();
 }
 
 function populateGameboard () {
@@ -179,6 +183,8 @@ function flipGamePieces () {
             $(".discWhite").off("click");
         }
     }
+    displayCurrentScore ();
+    displayCurrentWinner ();
     togglePlayers();
 }
 
@@ -197,6 +203,45 @@ function togglePlayers(){
         findPossibleMoves("discBlack");
     }
 }
+
+function displayCurrentWinner(){
+    var whiteCell = $('.discWhite');
+    var blackCell = $('.discBlack');
+    if(whiteCell.length === blackCell.length){
+        $('#currentWinner').text('Current Winner: It\'s a tie!');
+    } else if(whiteCell.length > blackCell.length){
+        $('#currentWinner').text('Current Winner: White');
+    } else if(blackCell.length > whiteCell.length){
+        $('#currentWinner').text('Current Winner: Black');
+    }
+    return $(currentWinner);
+}
+
+function displayCurrentScore(){
+    var clearCell = [];
+    var whiteCell = $('.discWhite');
+    var blackCell = $('.discBlack');
+    var whiteScore = whiteCell.length;
+    var blackScore = blackCell.length;
+    clearCell = $('.disc').not(".discBlack, .discWhite");
+    console.log('*** CLEAR CELL LENGTH ***', clearCell.length);
+    $('#scoreboard').text('White Score: ' + whiteScore + ' || ' + 'Black Score: ' + blackScore);
+    if(clearCell.length===0){
+        setTimeout(function(){
+            if(whiteScore > blackScore){
+                alert('White player has won!');
+            }
+            else if(blackScore > whiteScore){
+                alert('Black player has won!');
+            }
+            else if(blackScore === whiteScore){
+                alert('Game was a tie!');
+            }
+        }, 3000);
+
+    }
+}
+
 function resetGame () {
     var rows = $(".row");
     for(var rowI = 0; rowI < rows.length; rowI++){
