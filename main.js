@@ -33,12 +33,10 @@ function generateGameBoard(){
     $("[row='5'][col='5']").addClass('discWhite');
 
 
+    var resetButton = $('<input>').attr({id: 'resetButton', type: 'button', value: 'Reset'});
+    var skipTurn = $('<input>').attr({id: 'skipTurn', type: 'button', value: 'Skip Turn (if no valid moves)'});
 
-
-    //eventually function on this button will be refreshGrid()?
-    var resetButton = $('<input>').attr({id: 'resetButton', type: 'button', value: 'Reset'}).click();
-
-    body.append(resetButton);
+    body.append(resetButton, skipTurn);
 
 }
 
@@ -59,6 +57,7 @@ var directionArray = [
 ];
 
 function initializeApp () {
+    modalFunction ();
     generateGameBoard();
     populateGameboard();
     addclickhandlers();
@@ -78,6 +77,7 @@ function populateGameboard () {
 function addclickhandlers () {
     $(".disc").on("click",flipGamePieces);
     $("#resetButton").on("click",resetGame);
+    $("#skipTurn").on("click", skipTurn);
 }
 
 function findPossibleMoves ( startingColor ) {
@@ -204,6 +204,16 @@ function togglePlayers(){
     }
 }
 
+function skipTurn(){
+    var testArray = $('.validMoveBorder');
+    console.log(testArray.length);
+    if(testArray.length === 0){
+        togglePlayers();
+    } else {
+        return
+    }
+}
+
 function displayCurrentWinner(){
     var whiteCell = $('.discWhite');
     var blackCell = $('.discBlack');
@@ -227,18 +237,18 @@ function displayCurrentScore(){
     console.log('*** CLEAR CELL LENGTH ***', clearCell.length);
     $('#scoreboard').text('White Score: ' + whiteScore + ' || ' + 'Black Score: ' + blackScore);
     if(clearCell.length===0){
-        setTimeout(function(){
-            if(whiteScore > blackScore){
-                alert('White player has won!');
-            }
-            else if(blackScore > whiteScore){
-                alert('Black player has won!');
-            }
-            else if(blackScore === whiteScore){
-                alert('Game was a tie!');
-            }
-        }, 3000);
-
+        if(whiteScore > blackScore){
+            $(".modal-content").text("White Player has won!");
+            displayWinModal ();
+        }
+        else if(blackScore > whiteScore){
+            $(".modal-content").text("Black Player has won!");
+            displayWinModal ();
+        }
+        else if(blackScore === whiteScore){
+            $(".modal-content").text("Tied Game!");
+            displayWinModal ();
+        }
     }
 }
 
@@ -277,6 +287,29 @@ function resetGame () {
         $('body').css('background-color', 'black');
         $('body').css('color', 'white');
     }
+    displayCurrentScore();
     addclickhandlers();
     findPossibleMoves("discBlack");
+}
+
+function modalFunction () {
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+function displayWinModal () {
+    var modal = document.getElementById('myModal');
+    modal.style.display = "block";
 }
