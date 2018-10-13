@@ -159,6 +159,7 @@ function flipGamePieces () {
                 checkRow = [parseInt(checkRow) + parseInt(directionArray[directionFirstArr][0])];
                 checkColumn = [parseInt(checkColumn) + parseInt(directionArray[directionFirstArr][1])];
                 var multiplePossibleMove = $(`[row = ${(checkRow)}][col = ${(checkColumn)}]`);
+                savedArray.push(multiplePossibleMove);
                 if (multiplePossibleMove.hasClass(currentPlayerColor)){
                     break;
                 }
